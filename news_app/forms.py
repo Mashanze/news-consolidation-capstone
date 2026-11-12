@@ -1,3 +1,9 @@
+"""Forms for article publishing, newsletters, and user registration.
+
+Provides journalist-specific field filtering and secure account
+registration with administrator-controlled editorial roles.
+"""
+
 from django import forms
 
 from .models import Article, Newsletter, Publisher
@@ -51,6 +57,18 @@ class ArticleForm(forms.ModelForm):
         }
 
     def __init__(self, *args, journalist=None, **kwargs):
+        """Restrict newsletter article choices to approved author articles.
+
+        Args:
+            journalist: Optional journalist whose approved articles
+                are available for newsletter selection.
+        """
+        """Initialize article fields and filter affiliated publishers.
+
+        Args:
+            journalist: Optional user whose publisher affiliations
+                determine the available publisher choices.
+        """
         super().__init__(*args, **kwargs)
 
         self.fields["publisher"].required = False
@@ -157,6 +175,16 @@ class RegistrationForm(UserCreationForm):
         )
 
     def save(self, commit=True):
+        """Create a reader account while recording the requested role.
+
+        Editorial privileges are never granted during registration.
+
+        Args:
+            commit: Whether to save the user to the database.
+
+        Returns:
+            CustomUser: The newly created user instance.
+        """
         user = super().save(commit=False)
         user.email = self.cleaned_data["email"]
 
