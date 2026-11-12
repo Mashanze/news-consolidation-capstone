@@ -1,4 +1,110 @@
-# Django News Application
+# Django News Application — Consolidation Capstone
+
+A Django news publishing application developed for the HyperionDev M07T05 Consolidation Capstone.
+
+## Features
+
+- Reader, journalist, and editor roles
+- News article management
+- Publisher and newsletter functionality
+- REST API endpoints
+- MySQL database
+- Docker deployment
+- Sphinx documentation
+
+## Requirements
+
+- Python 3.9 or newer
+- MySQL
+- Docker Desktop (for containerized deployment)
+
+## Local Installation
+
+Create a virtual environment:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Copy the environment template:
+
+```bash
+cp .env.example .env
+```
+
+Replace the placeholder secret key and configure the database credentials. For local commands, export database environment variables as needed.
+
+Run database migrations:
+
+```bash
+python manage.py migrate
+```
+
+Start the server:
+
+```bash
+python manage.py runserver
+```
+
+## Docker Deployment
+
+Configure your `.env` file with a Django secret key and database passwords.
+
+Start the application:
+
+```bash
+docker compose up --build -d
+```
+
+Open http://localhost:8000
+
+Stop the application:
+
+```bash
+docker compose down
+```
+
+## Testing
+
+Run the tests inside Docker:
+
+```bash
+docker compose exec web python manage.py test
+```
+
+## Sphinx Documentation
+
+Generated documentation is available at:
+
+`docs/build/html/index.html`
+
+To rebuild it:
+
+```bash
+pip install sphinx
+python -m sphinx -b html docs/source docs/build/html
+```
+
+## Git Branches
+
+- main — Final consolidated project
+- docs — Python docstrings and Sphinx documentation
+- container — Docker implementation
+
+Both feature branches were merged into main.
+
+## Security
+
+The `.env` file is excluded from Git. Never commit passwords or secret keys.
+
+The Docker configuration uses Django's development server and is intended for local development and assessment.# Django News Application
 
 A Django-based news publishing platform developed for the
 HyperionDev Software Engineering Capstone Project.
