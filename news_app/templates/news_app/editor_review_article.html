@@ -1,0 +1,121 @@
+{% extends "news_app/base.html" %}
+
+{% block title %}
+Review {{ article.title }} | NewsHub
+{% endblock %}
+
+{% block content %}
+
+<div class="section-heading">
+
+    <span class="badge">
+        Editorial Review
+    </span>
+
+    <h1>
+        Review Article
+    </h1>
+
+    <p>
+        Review the complete article before approving it.
+    </p>
+
+</div>
+
+
+<article class="card">
+
+    {% if article.approved %}
+
+        <span class="badge">
+            Approved
+        </span>
+
+    {% else %}
+
+        <span class="badge">
+            Awaiting Approval
+        </span>
+
+    {% endif %}
+
+
+    <h1>
+        {{ article.title }}
+    </h1>
+
+
+    <div class="meta">
+
+        Author:
+        {{ article.author.username }}
+
+        {% if article.publisher %}
+            • Publisher:
+            {{ article.publisher.name }}
+        {% else %}
+            • Independent Journalist
+        {% endif %}
+
+        • Submitted:
+        {{ article.created_at|date:"d F Y H:i" }}
+
+    </div>
+
+
+    <hr
+        style="
+            margin: 25px 0;
+            border: 0;
+            border-top: 1px solid #ddd;
+        "
+    >
+
+
+    <div class="article-content">
+        {{ article.content }}
+    </div>
+
+
+    <div style="margin-top: 30px;">
+
+        {% if not article.approved %}
+
+            <form
+                method="post"
+                action="{% url 'editor-approve-article' article.pk %}"
+                style="display: inline;"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="button"
+                >
+                    Approve & Publish
+                </button>
+
+            </form>
+
+        {% else %}
+
+            <p>
+                This article has already been approved.
+            </p>
+
+        {% endif %}
+
+
+        <a
+            href="{% url 'editor-dashboard' %}"
+            class="button button-secondary"
+        >
+            Back to Dashboard
+        </a>
+
+    </div>
+
+</article>
+
+{% endblock %}

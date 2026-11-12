@@ -1,0 +1,103 @@
+{% extends "news_app/base.html" %}
+
+{% block title %}
+My Feed | NewsHub
+{% endblock %}
+
+{% block content %}
+
+<div class="section-heading">
+    <span class="badge">Reader Dashboard</span>
+
+    <h1>My News Feed</h1>
+
+    <p>
+        Approved articles from publishers and journalists
+        you follow.
+    </p>
+</div>
+
+<section class="card" style="margin-bottom: 25px;">
+    <h2>Your Subscriptions</h2>
+
+    <h3 style="margin-top: 20px;">
+        Publishers
+    </h3>
+
+    {% for publisher in subscribed_publishers %}
+        <p>{{ publisher.name }}</p>
+    {% empty %}
+        <p>You are not following any publishers yet.</p>
+    {% endfor %}
+
+    <h3 style="margin-top: 20px;">
+        Journalists
+    </h3>
+
+    {% for journalist in subscribed_journalists %}
+        <p>{{ journalist.username }}</p>
+    {% empty %}
+        <p>You are not following any journalists yet.</p>
+    {% endfor %}
+</section>
+
+<div class="section-heading">
+    <h2>Subscribed Articles</h2>
+</div>
+
+<div class="grid">
+
+    {% for article in articles %}
+
+        <article class="card">
+
+            {% if article.publisher %}
+                <span class="badge">
+                    {{ article.publisher.name }}
+                </span>
+            {% else %}
+                <span class="badge">
+                    Independent
+                </span>
+            {% endif %}
+
+            <h2>{{ article.title }}</h2>
+
+            <div class="meta">
+                By {{ article.author.username }}
+                •
+                {{ article.created_at|date:"d M Y" }}
+            </div>
+
+            <p>
+                {{ article.content|truncatewords:35 }}
+            </p>
+
+            <a
+                href="{% url 'article-detail-page' article.pk %}"
+                class="button"
+            >
+                Read Article
+            </a>
+
+        </article>
+
+    {% empty %}
+
+        <div class="empty-state">
+            No articles are currently available from
+            your subscriptions.
+        </div>
+
+    {% endfor %}
+
+</div>
+
+<a
+    href="{% url 'reader-subscriptions' %}"
+    class="button"
+>
+    Manage Subscriptions
+</a>
+
+{% endblock %}

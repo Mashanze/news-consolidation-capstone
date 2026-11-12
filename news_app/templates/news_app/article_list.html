@@ -1,0 +1,72 @@
+{% extends "news_app/base.html" %}
+
+{% block title %}
+Articles | NewsHub
+{% endblock %}
+
+
+{% block content %}
+
+<div class="section-heading">
+    <h1>Published Articles</h1>
+
+    <p>
+        Browse approved stories from our journalists.
+    </p>
+</div>
+
+
+<div class="grid">
+
+    {% for article in articles %}
+
+        <article class="card">
+
+            {% if article.publisher %}
+
+                <span class="badge">
+                    {{ article.publisher.name }}
+                </span>
+
+            {% else %}
+
+                <span class="badge">
+                    Independent Journalist
+                </span>
+
+            {% endif %}
+
+            <h2>
+                {{ article.title }}
+            </h2>
+
+            <div class="meta">
+                By {{ article.author.username }}
+                •
+                {{ article.created_at|date:"d M Y H:i" }}
+            </div>
+
+            <p>
+                {{ article.content|truncatewords:40 }}
+            </p>
+
+            <a
+                href="{% url 'article-detail-page' article.pk %}"
+                class="button"
+            >
+                Read More
+            </a>
+
+        </article>
+
+    {% empty %}
+
+        <div class="empty-state">
+            There are currently no approved articles.
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

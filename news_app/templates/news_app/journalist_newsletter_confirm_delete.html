@@ -1,0 +1,63 @@
+{% extends "news_app/base.html" %}
+
+{% block title %}
+Delete Newsletter | NewsHub
+{% endblock %}
+
+{% block content %}
+
+<div class="section-heading">
+
+    <span class="badge">
+        Journalist
+    </span>
+
+    <h1>
+        Delete Newsletter
+    </h1>
+
+</div>
+
+
+<div class="card">
+
+    <h2>
+        {{ newsletter.title }}
+    </h2>
+
+    <p style="margin-top: 15px;">
+        Are you sure you want to permanently delete
+        this newsletter?
+    </p>
+
+    <p style="margin-top: 10px;">
+        The articles themselves will not be deleted.
+    </p>
+
+
+    <form
+        method="post"
+        style="margin-top: 20px;"
+    >
+
+        {% csrf_token %}
+
+        <button
+            type="submit"
+            class="button"
+        >
+            Delete Newsletter
+        </button>
+
+        <a
+            href="{% url 'journalist-dashboard' %}"
+            class="button button-secondary"
+        >
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

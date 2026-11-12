@@ -1,0 +1,51 @@
+{% extends "news_app/base.html" %}
+
+{% block title %}
+{{ article.title }} | NewsHub
+{% endblock %}
+
+
+{% block content %}
+
+<article class="card">
+
+    {% if article.publisher %}
+
+        <span class="badge">
+            {{ article.publisher.name }}
+        </span>
+
+    {% else %}
+
+        <span class="badge">
+            Independent Journalist
+        </span>
+
+    {% endif %}
+
+    <h1>
+        {{ article.title }}
+    </h1>
+
+    <div class="meta">
+        Written by {{ article.author.username }}
+        •
+        {{ article.created_at|date:"d F Y H:i" }}
+    </div>
+
+    <hr style="margin: 25px 0; border: 0; border-top: 1px solid #ddd;">
+
+    <div class="article-content">
+        {{ article.content }}
+    </div>
+
+    <a
+        href="{% url 'article-list-page' %}"
+        class="button button-secondary"
+    >
+        ← Back to Articles
+    </a>
+
+</article>
+
+{% endblock %}

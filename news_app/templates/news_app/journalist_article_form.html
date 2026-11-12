@@ -1,0 +1,83 @@
+{% extends "news_app/base.html" %}
+
+{% block title %}
+{{ page_title }} | NewsHub
+{% endblock %}
+
+{% block content %}
+
+<div class="section-heading">
+    <span class="badge">Journalist</span>
+
+    <h1>{{ page_title }}</h1>
+
+    <p>
+        Articles must be approved by an editor before
+        appearing publicly.
+    </p>
+</div>
+
+<div class="card">
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div style="margin-bottom: 20px;">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <div style="margin-bottom: 20px;">
+            <label for="{{ form.title.id_for_label }}">
+                <strong>{{ form.title.label }}</strong>
+            </label>
+
+            <div style="margin-top: 8px;">
+                {{ form.title }}
+            </div>
+
+            {{ form.title.errors }}
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label for="{{ form.publisher.id_for_label }}">
+                <strong>{{ form.publisher.label }}</strong>
+            </label>
+
+            <div style="margin-top: 8px;">
+                {{ form.publisher }}
+            </div>
+
+            {{ form.publisher.errors }}
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label for="{{ form.content.id_for_label }}">
+                <strong>{{ form.content.label }}</strong>
+            </label>
+
+            <div style="margin-top: 8px;">
+                {{ form.content }}
+            </div>
+
+            {{ form.content.errors }}
+        </div>
+
+        <button type="submit" class="button">
+            {{ button_text }}
+        </button>
+
+        <a
+            href="{% url 'journalist-dashboard' %}"
+            class="button button-secondary"
+        >
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

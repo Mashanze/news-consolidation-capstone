@@ -1,0 +1,167 @@
+{% extends "news_app/base.html" %}
+
+{% block title %}
+Manage Subscriptions | NewsHub
+{% endblock %}
+
+
+{% block content %}
+
+<div class="section-heading">
+
+    <span class="badge">
+        Reader
+    </span>
+
+    <h1>Manage Subscriptions</h1>
+
+    <p>
+        Follow publishers and journalists to personalize
+        your news feed.
+    </p>
+
+    <a
+        href="{% url 'reader-dashboard' %}"
+        class="button button-secondary"
+    >
+        ← My Feed
+    </a>
+
+</div>
+
+
+<div class="section-heading">
+    <h2>Publishers</h2>
+</div>
+
+
+<div class="grid">
+
+    {% for publisher in publishers %}
+
+        <section class="card">
+
+            <span class="badge">
+                Publisher
+            </span>
+
+            <h2>
+                {{ publisher.name }}
+            </h2>
+
+            <p>
+                {{ publisher.description }}
+            </p>
+
+            <form
+                method="post"
+                action="{% url 'reader-toggle-publisher-subscription' publisher.pk %}"
+            >
+
+                {% csrf_token %}
+
+                {% if publisher.pk in subscribed_publisher_ids %}
+
+                    <button
+                        type="submit"
+                        class="button button-secondary"
+                    >
+                        Unsubscribe
+                    </button>
+
+                {% else %}
+
+                    <button
+                        type="submit"
+                        class="button"
+                    >
+                        Subscribe
+                    </button>
+
+                {% endif %}
+
+            </form>
+
+        </section>
+
+    {% empty %}
+
+        <div class="empty-state">
+            No publishers are currently available.
+        </div>
+
+    {% endfor %}
+
+</div>
+
+
+<div class="section-heading">
+    <h2>Journalists</h2>
+</div>
+
+
+<div class="grid">
+
+    {% for journalist in journalists %}
+
+        <section class="card">
+
+            <span class="badge">
+                Journalist
+            </span>
+
+            <h2>
+                {{ journalist.username }}
+            </h2>
+
+            {% if journalist.email %}
+
+                <p>
+                    {{ journalist.email }}
+                </p>
+
+            {% endif %}
+
+
+            <form
+                method="post"
+                action="{% url 'reader-toggle-journalist-subscription' journalist.pk %}"
+            >
+
+                {% csrf_token %}
+
+                {% if journalist.pk in subscribed_journalist_ids %}
+
+                    <button
+                        type="submit"
+                        class="button button-secondary"
+                    >
+                        Unsubscribe
+                    </button>
+
+                {% else %}
+
+                    <button
+                        type="submit"
+                        class="button"
+                    >
+                        Subscribe
+                    </button>
+
+                {% endif %}
+
+            </form>
+
+        </section>
+
+    {% empty %}
+
+        <div class="empty-state">
+            No journalists are currently available.
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

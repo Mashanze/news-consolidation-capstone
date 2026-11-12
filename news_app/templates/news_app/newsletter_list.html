@@ -1,0 +1,85 @@
+{% extends "news_app/base.html" %}
+
+{% block title %}
+Newsletters | NewsHub
+{% endblock %}
+
+
+{% block content %}
+
+<div class="section-heading">
+
+    <h1>Newsletters</h1>
+
+    <p>
+        Curated collections of articles from our journalists.
+    </p>
+
+</div>
+
+
+<div class="grid">
+
+    {% for newsletter in newsletters %}
+
+        <section class="card">
+
+            <span class="badge">
+                Newsletter
+            </span>
+
+            <h2>
+                {{ newsletter.title }}
+            </h2>
+
+            <div class="meta">
+                Created by {{ newsletter.author.username }}
+                •
+                {{ newsletter.created_at|date:"d M Y" }}
+            </div>
+
+            <p>
+                {{ newsletter.description }}
+            </p>
+
+            <h3 style="margin-top: 20px;">
+                Included Articles
+            </h3>
+
+            {% for article in newsletter.articles.all %}
+
+                {% if article.approved %}
+
+                    <p style="margin-top: 10px;">
+
+                        <a
+                            href="{% url 'article-detail-page' article.pk %}"
+                        >
+                            {{ article.title }}
+                        </a>
+
+                    </p>
+
+                {% endif %}
+
+            {% empty %}
+
+                <p>
+                    No articles have been added yet.
+                </p>
+
+            {% endfor %}
+
+        </section>
+
+    {% empty %}
+
+        <div class="empty-state">
+            No newsletters are currently available.
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "news_app/base.html" %}
+
+{% block title %}Login | NewsHub{% endblock %}
+
+{% block content %}
+
+<div class="card" style="max-width: 520px; margin: 30px auto;">
+
+    <h1>Welcome Back</h1>
+
+    <p style="margin: 15px 0;">
+        Log in to your NewsHub account.
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit" class="button">
+            Log In
+        </button>
+    </form>
+
+    <p style="margin-top: 20px;">
+        Don't have an account?
+        <a href="{% url 'register' %}">Create one</a>
+    </p>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends "news_app/base.html" %}
+
+{% block title %}
+{{ page_title }} | NewsHub
+{% endblock %}
+
+{% block content %}
+
+<div class="section-heading">
+
+    <span class="badge">
+        Journalist
+    </span>
+
+    <h1>
+        {{ page_title }}
+    </h1>
+
+    <p>
+        Create a newsletter using your approved articles.
+    </p>
+
+</div>
+
+<div class="card">
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div style="margin-bottom: 20px;">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <div style="margin-bottom: 20px;">
+
+            <label for="{{ form.title.id_for_label }}">
+                <strong>
+                    {{ form.title.label }}
+                </strong>
+            </label>
+
+            <div style="margin-top: 8px;">
+                {{ form.title }}
+            </div>
+
+            {{ form.title.errors }}
+
+        </div>
+
+
+        <div style="margin-bottom: 20px;">
+
+            <label for="{{ form.description.id_for_label }}">
+                <strong>
+                    {{ form.description.label }}
+                </strong>
+            </label>
+
+            <div style="margin-top: 8px;">
+                {{ form.description }}
+            </div>
+
+            {{ form.description.errors }}
+
+        </div>
+
+
+        <div style="margin-bottom: 20px;">
+
+            <strong>
+                {{ form.articles.label }}
+            </strong>
+
+            <p
+                class="meta"
+                style="margin-top: 5px;"
+            >
+                Only your approved articles can be selected.
+            </p>
+
+            <div style="margin-top: 12px;">
+                {{ form.articles }}
+            </div>
+
+            {{ form.articles.errors }}
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="button"
+        >
+            {{ button_text }}
+        </button>
+
+
+        <a
+            href="{% url 'journalist-dashboard' %}"
+            class="button button-secondary"
+        >
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

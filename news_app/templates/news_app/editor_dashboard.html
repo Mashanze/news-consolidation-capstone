@@ -1,0 +1,123 @@
+{% extends "news_app/base.html" %}
+
+{% block title %}
+Editor Dashboard | NewsHub
+{% endblock %}
+
+{% block content %}
+
+<div class="section-heading">
+
+    <span class="badge">
+        Editor Dashboard
+    </span>
+
+    <h1>Editorial Review</h1>
+
+    <p>
+        Review pending articles before publication.
+    </p>
+
+</div>
+
+
+<div class="section-heading">
+    <h2>Awaiting Approval</h2>
+</div>
+
+
+<div class="grid">
+
+    {% for article in pending_articles %}
+
+        <article class="card">
+
+            <span class="badge">
+                Pending Review
+            </span>
+
+            <h2>
+                {{ article.title }}
+            </h2>
+
+            <div class="meta">
+
+                By {{ article.author.username }}
+
+                {% if article.publisher %}
+                    • {{ article.publisher.name }}
+                {% endif %}
+
+                • {{ article.created_at|date:"d M Y H:i" }}
+
+            </div>
+
+            <p>
+                {{ article.content|truncatewords:40 }}
+            </p>
+
+            <a
+                href="{% url 'editor-review-article' article.pk %}"
+                class="button"
+            >
+                Review Article
+            </a>
+
+        </article>
+
+    {% empty %}
+
+        <div class="empty-state">
+            There are no articles waiting for approval.
+        </div>
+
+    {% endfor %}
+
+</div>
+
+
+<div class="section-heading">
+    <h2>Recently Approved</h2>
+</div>
+
+
+<div class="grid">
+
+    {% for article in approved_articles %}
+
+        <article class="card">
+
+            <span class="badge">
+                Approved
+            </span>
+
+            <h3>
+                {{ article.title }}
+            </h3>
+
+            <div class="meta">
+                By {{ article.author.username }}
+                •
+                {{ article.created_at|date:"d M Y" }}
+            </div>
+
+            <a
+                href="{% url 'article-detail-page' article.pk %}"
+                class="button button-secondary"
+            >
+                View Published Article
+            </a>
+
+        </article>
+
+    {% empty %}
+
+        <div class="empty-state">
+            No articles have been approved yet.
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,201 @@
+{% extends "news_app/base.html" %}
+
+{% block title %}
+Journalist Dashboard | NewsHub
+{% endblock %}
+
+{% block content %}
+
+<div class="section-heading">
+
+    <span class="badge">
+        Journalist Dashboard
+    </span>
+
+    <h1>Your Content</h1>
+
+    <p>
+        Create, manage and monitor your articles
+        and newsletters.
+    </p>
+
+    <a
+        href="{% url 'journalist-create-article' %}"
+        class="button"
+    >
+        + Create Article
+    </a>
+
+    <a
+        href="{% url 'journalist-create-newsletter' %}"
+        class="button button-secondary"
+    >
+        + Create Newsletter
+    </a>
+
+</div>
+
+
+<div class="section-heading">
+    <h2>Your Articles</h2>
+</div>
+
+
+<div class="grid">
+
+    {% for article in articles %}
+
+        <article class="card">
+
+            {% if article.approved %}
+
+                <span class="badge">
+                    Approved
+                </span>
+
+            {% else %}
+
+                <span class="badge">
+                    Awaiting Approval
+                </span>
+
+            {% endif %}
+
+
+            <h2>
+                {{ article.title }}
+            </h2>
+
+
+            <div class="meta">
+
+                {% if article.publisher %}
+                    {{ article.publisher.name }}
+                {% else %}
+                    Independent
+                {% endif %}
+
+                •
+
+                {{ article.created_at|date:"d M Y" }}
+
+            </div>
+
+
+            <p>
+                {{ article.content|truncatewords:35 }}
+            </p>
+
+
+            <a
+                href="{% url 'journalist-edit-article' article.pk %}"
+                class="button button-secondary"
+            >
+                Edit
+            </a>
+
+            <a
+                href="{% url 'journalist-delete-article' article.pk %}"
+                class="button button-secondary"
+            >
+                Delete
+            </a>
+
+        </article>
+
+    {% empty %}
+
+        <div class="empty-state">
+
+            <p>
+                You haven't created any articles yet.
+            </p>
+
+            <a
+                href="{% url 'journalist-create-article' %}"
+                class="button"
+            >
+                Create Your First Article
+            </a>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+
+<div class="section-heading">
+    <h2>Your Newsletters</h2>
+</div>
+
+
+<div class="grid">
+
+    {% for newsletter in newsletters %}
+
+        <section class="card">
+
+            <span class="badge">
+                Newsletter
+            </span>
+
+            <h2>
+                {{ newsletter.title }}
+            </h2>
+
+            <div class="meta">
+                {{ newsletter.created_at|date:"d M Y" }}
+            </div>
+
+            <p>
+                {{ newsletter.description }}
+            </p>
+
+            <p style="margin-top: 15px;">
+                <strong>
+                    Articles:
+                </strong>
+
+                {{ newsletter.articles.count }}
+            </p>
+
+
+            <a
+                href="{% url 'journalist-edit-newsletter' newsletter.pk %}"
+                class="button button-secondary"
+            >
+                Edit
+            </a>
+
+            <a
+                href="{% url 'journalist-delete-newsletter' newsletter.pk %}"
+                class="button button-secondary"
+            >
+                Delete
+            </a>
+
+        </section>
+
+    {% empty %}
+
+        <div class="empty-state">
+
+            <p>
+                You haven't created any newsletters yet.
+            </p>
+
+            <a
+                href="{% url 'journalist-create-newsletter' %}"
+                class="button"
+            >
+                Create Your First Newsletter
+            </a>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

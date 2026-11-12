@@ -1,0 +1,38 @@
+{% extends "news_app/base.html" %}
+
+{% block title %}Create Account | NewsHub{% endblock %}
+
+{% block content %}
+
+<div class="card" style="max-width: 520px; margin: 30px auto;">
+
+    <h1>Create an Account</h1>
+
+    <p style="margin: 15px 0;">
+        Join NewsHub to follow publishers, read articles,
+        and subscribe to journalists.
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <p style="margin-top: 15px; font-size: 0.9rem;">
+            Journalist and Editor roles require administrator approval.
+            New accounts receive Reader access initially.
+        </p>
+
+        <button type="submit" class="button">
+            Create Account
+        </button>
+    </form>
+
+    <p style="margin-top: 20px;">
+        Already have an account?
+        <a href="{% url 'login' %}">Log in</a>
+    </p>
+
+</div>
+
+{% endblock %}

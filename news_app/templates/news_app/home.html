@@ -1,0 +1,137 @@
+{% extends "news_app/base.html" %}
+
+{% block title %}
+NewsHub | Latest News
+{% endblock %}
+
+
+{% block content %}
+
+<section class="hero">
+
+    <span class="badge">
+        News Application
+    </span>
+
+    <h1>
+        Independent journalism.
+        Trusted stories.
+    </h1>
+
+    <p>
+        Discover approved articles from journalists and
+        publishers, follow the sources that matter to you,
+        and stay informed through curated newsletters.
+    </p>
+
+    <a
+        href="{% url 'article-list-page' %}"
+        class="button"
+    >
+        Browse Articles
+    </a>
+
+</section>
+
+
+<div class="section-heading">
+    <h2>Latest Articles</h2>
+    <p>
+        Recently approved stories from our journalists.
+    </p>
+</div>
+
+
+<div class="grid">
+
+    {% for article in articles %}
+
+        <article class="card">
+
+            {% if article.publisher %}
+                <span class="badge">
+                    {{ article.publisher.name }}
+                </span>
+            {% else %}
+                <span class="badge">
+                    Independent
+                </span>
+            {% endif %}
+
+            <h2>
+                {{ article.title }}
+            </h2>
+
+            <div class="meta">
+                By {{ article.author.username }}
+                •
+                {{ article.created_at|date:"d M Y" }}
+            </div>
+
+            <p>
+                {{ article.content|truncatewords:30 }}
+            </p>
+
+            <a
+                href="{% url 'article-detail-page' article.pk %}"
+                class="button"
+            >
+                Read Article
+            </a>
+
+        </article>
+
+    {% empty %}
+
+        <div class="empty-state">
+            No approved articles are available yet.
+        </div>
+
+    {% endfor %}
+
+</div>
+
+
+<div class="section-heading">
+    <h2>Newsletters</h2>
+    <p>
+        Curated collections from our journalists.
+    </p>
+</div>
+
+
+<div class="grid">
+
+    {% for newsletter in newsletters %}
+
+        <section class="card">
+
+            <span class="badge">
+                Newsletter
+            </span>
+
+            <h3>
+                {{ newsletter.title }}
+            </h3>
+
+            <div class="meta">
+                By {{ newsletter.author.username }}
+            </div>
+
+            <p>
+                {{ newsletter.description }}
+            </p>
+
+        </section>
+
+    {% empty %}
+
+        <div class="empty-state">
+            No newsletters are available yet.
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
