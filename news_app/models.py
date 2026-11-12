@@ -1,3 +1,12 @@
+"""Database models for the Django News Application.
+
+Defines publishers, users, articles, and newsletters.
+
+The custom user model supports reader, journalist, and editor roles.
+Readers can subscribe to publishers and individual journalists.
+Articles support editorial approval before publication.
+"""
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -93,14 +102,17 @@ class CustomUser(AbstractUser):
 
     @property
     def is_reader(self):
+        """Return whether this user has the reader role."""
         return self.role == self.ROLE_READER
 
     @property
     def is_journalist(self):
+        """Return whether this user has the journalist role."""
         return self.role == self.ROLE_JOURNALIST
 
     @property
     def is_editor(self):
+        """Return whether this user has the editor role."""
         return self.role == self.ROLE_EDITOR
 
 
