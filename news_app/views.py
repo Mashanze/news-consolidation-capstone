@@ -1,3 +1,10 @@
+"""Website views and REST API endpoints for the News Application.
+
+Provides public article and newsletter pages, reader subscriptions,
+journalist publishing workflows, editor approval workflows,
+user registration, and role-based API permissions.
+"""
+
 import logging
 
 from .forms import ArticleForm, NewsletterForm
@@ -738,6 +745,7 @@ class IsReader(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
+        """Handle has permission operations."""
         return (
             request.user.is_authenticated
             and request.user.is_reader
@@ -750,6 +758,7 @@ class IsJournalist(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
+        """Handle has permission operations."""
         return (
             request.user.is_authenticated
             and request.user.is_journalist
@@ -762,6 +771,7 @@ class IsEditor(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
+        """Handle has permission operations."""
         return (
             request.user.is_authenticated
             and request.user.is_editor
@@ -776,6 +786,7 @@ class IsEditorOrJournalist(
     """
 
     def has_permission(self, request, view):
+        """Handle has permission operations."""
         if request.method in permissions.SAFE_METHODS:
             return True
 
@@ -794,11 +805,13 @@ class IsEditorOrJournalist(
 
 
 class PublisherViewSet(viewsets.ModelViewSet):
+    """Provide PublisherViewSet functionality for the news application."""
     queryset = Publisher.objects.all()
 
     serializer_class = PublisherSerializer
 
     def get_permissions(self):
+        """Handle get permissions operations."""
         if self.action in [
             "create",
             "update",
@@ -816,9 +829,11 @@ class PublisherViewSet(viewsets.ModelViewSet):
 
 
 class ArticleViewSet(viewsets.ModelViewSet):
+    """Provide ArticleViewSet functionality for the news application."""
     serializer_class = ArticleSerializer
 
     def get_queryset(self):
+        """Handle get queryset operations."""
         user = self.request.user
 
         # Editors can see every article.
@@ -849,6 +864,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
         )
 
     def get_permissions(self):
+        """Handle get permissions operations."""
         if self.action == "create":
             return [IsJournalist()]
 
@@ -869,6 +885,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
         ]
 
     def perform_create(self, serializer):
+        """Handle perform create operations."""
         serializer.save(
             author=self.request.user,
             approved=False,
@@ -993,6 +1010,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
 class NewsletterViewSet(
     viewsets.ModelViewSet
 ):
+    """Provide NewsletterViewSet functionality for the news application."""
     queryset = Newsletter.objects.all()
 
     serializer_class = (
@@ -1000,6 +1018,7 @@ class NewsletterViewSet(
     )
 
     def get_permissions(self):
+        """Handle get permissions operations."""
         if self.action in [
             "create",
             "update",
@@ -1015,6 +1034,7 @@ class NewsletterViewSet(
         ]
 
     def perform_create(self, serializer):
+        """Handle perform create operations."""
         serializer.save(
             author=self.request.user
         )
@@ -1037,6 +1057,7 @@ class ApprovedArticleView(APIView):
     ]
 
     def post(self, request):
+        """Handle post operations."""
         article_id = request.data.get(
             "article_id"
         )
