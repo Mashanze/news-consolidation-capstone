@@ -10,3 +10,6 @@ __pycache__/
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Sphinx temporary build cache
+docs/build/html/.doctrees/
