@@ -57,12 +57,6 @@ class ArticleForm(forms.ModelForm):
         }
 
     def __init__(self, *args, journalist=None, **kwargs):
-        """Restrict newsletter article choices to approved author articles.
-
-        Args:
-            journalist: Optional journalist whose approved articles
-                are available for newsletter selection.
-        """
         """Initialize article fields and filter affiliated publishers.
 
         Args:
@@ -132,6 +126,12 @@ class NewsletterForm(forms.ModelForm):
         }
 
     def __init__(self, *args, journalist=None, **kwargs):
+        """Restrict newsletter article choices to approved author articles.
+
+        Args:
+            journalist: Optional journalist whose approved articles
+                are available for newsletter selection.
+        """
         super().__init__(*args, **kwargs)
 
         if journalist is not None:
