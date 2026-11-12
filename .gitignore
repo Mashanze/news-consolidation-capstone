@@ -11,5 +11,8 @@ __pycache__/
 .coverage
 htmlcov/
 
+
 # Sphinx temporary build cache
 docs/build/html/.doctrees/
+# Local settings backups
+*.backup
